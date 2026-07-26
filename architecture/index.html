@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../images/favicon.ico">
-      <meta name="generator" content="zensical-0.0.47">
+      <meta name="generator" content="zensical-0.0.51">
     
     
       
@@ -34,7 +34,7 @@
       
         
       
-      <link rel="stylesheet" href="../assets/stylesheets/modern/main.5e19f6ca.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/modern/main.62c9b9cc.min.css">
       
         
           
@@ -1793,7 +1793,7 @@ Martin loads the whole file once, reprojects and indexes it in memory, then clip
         Rect["Tile Rect + buffer&lt;br/&gt;(WebMercator bbox)"]
         Query["R-tree candidate lookup"]
         Clip["Parallel clip + transform&lt;br/&gt;(geo, rayon)"]
-        Encode["MVT encode&lt;br/&gt;(geozero::mvt)"]
+        Encode["MVT encode&lt;br/&gt;(fast-mvt)"]
     end
 
     File --&gt; Parse --&gt; Reproject --&gt; RTree
@@ -1811,7 +1811,7 @@ Martin loads the whole file once, reprojects and indexes it in memory, then clip
 <li>The requested <code>z/x/y</code> is converted to a Web Mercator tile <code>Rect</code>, grown outward by the configurable <code>buffer</code> (as a <code>buffer / extent</code> fraction) so geometry near the edge survives clipping.</li>
 <li>The R-tree is queried for candidate features overlapping the buffered rect; no candidates yields an empty tile (<code>204 No Content</code>).</li>
 <li>Candidates are clipped in parallel (<code>rayon</code>): polygons via boolean intersection, lines via line-clip, points via containment - then snapped, repaired, re-oriented, and transformed into the tile's integer coordinate grid (<code>extent</code> units, y flipped for MVT).</li>
-<li>Surviving features are encoded into a single MVT layer named after the source id (<code>geozero::mvt</code>); properties are mapped to MVT column values (JSON arrays/objects serialized to strings, nulls dropped).</li>
+<li>Surviving features are encoded into a single MVT layer named after the source id (<code>fast-mvt</code>); properties are mapped to MVT values (JSON arrays/objects serialized to strings, nulls dropped).</li>
 <li>The tile is returned uncompressed as <code>application/x-protobuf</code>; the shared server layer then handles caching, ETag/<code>304</code>, and <code>Content-Encoding</code>, identically to every other source.</li>
 </ol>
 <p><strong>Configuration</strong> (<code>GeoJsonConfig</code>, both <code>.json</code> and <code>.geojson</code> extensions are discovered):</p>
@@ -2177,7 +2177,7 @@ The loop, triggers, and sink are reused.
       <script id="__config" type="application/json">{"annotate":null,"base":"..","features":["announce.dismiss","content.action.edit","content.code.annotate","content.code.copy","content.code.select","content.footnote.tooltips","content.tabs.link","content.tooltips","header.autohide","navigation.expand","navigation.footer","navigation.indexes","navigation.instant","navigation.instant.prefetch","navigation.instant.progress","navigation.path","navigation.prune","navigation.sections","navigation.tabs","navigation.tabs.sticky","navigation.top","navigation.tracking","search.highlight","toc.follow","toc.integrate"],"search":"../assets/javascripts/workers/search.b6b7e04f.min.js","tags":null,"translations":{"clipboard.copied":"Copied to clipboard","clipboard.copy":"Copy to clipboard","search.result.more.one":"1 more on this page","search.result.more.other":"# more on this page","search.result.none":"No matching documents","search.result.one":"1 matching document","search.result.other":"# matching documents","search.result.placeholder":"Type to start searching","search.result.term.missing":"Missing","select.version":"Select version"},"version":null}</script>
     
     
-      <script src="../assets/javascripts/bundle.0df4f2d0.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7f30b55.min.js"></script>
       
     
   </body>
